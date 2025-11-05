@@ -1,6 +1,7 @@
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { PublicKey, Keypair, SystemProgram } from "@solana/web3.js";
+import BN from "bn.js";
 import {
   TOKEN_PROGRAM_ID,
   ASSOCIATED_TOKEN_PROGRAM_ID,
@@ -16,7 +17,7 @@ describe("vesting_sale", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
 
-  const program = anchor.workspace.Vectaiproj as Program;
+  const program = anchor.workspace.VestingSale as Program;
   const authority = provider.wallet as anchor.Wallet;
   const payer = authority.payer;
 
@@ -159,9 +160,9 @@ describe("vesting_sale", () => {
   it("Initialize sale", async () => {
     const tx = await program.methods
       .initializeSale(
-        new anchor.BN(CLIFF_DURATION),
-        new anchor.BN(VESTING_DURATION),
-        new anchor.BN(USDC_PRICE_PER_VECT)
+        new BN(CLIFF_DURATION),
+        new BN(VESTING_DURATION),
+        new BN(USDC_PRICE_PER_VECT)
       )
       .accounts({
         saleState,
@@ -224,7 +225,7 @@ describe("vesting_sale", () => {
 
     // Fund the vault
     const tx = await program.methods
-      .adminFundVault(new anchor.BN(fundAmount))
+      .adminFundVault(new BN(fundAmount))
       .accounts({
         saleState,
         authority: authority.publicKey,
@@ -247,7 +248,7 @@ describe("vesting_sale", () => {
 
     try {
       await program.methods
-        .buyWithUsdc(new anchor.BN(usdcAmount))
+        .buyWithUsdc(new BN(usdcAmount))
         .accounts({
           saleState,
           vesting: vestingAccount,
@@ -274,7 +275,7 @@ describe("vesting_sale", () => {
     const expectedVectAmount = 200_000_000_000; // 200 VECT with 9 decimals
 
     const tx = await program.methods
-      .buyWithUsdc(new anchor.BN(usdcAmount))
+      .buyWithUsdc(new BN(usdcAmount))
       .accounts({
         saleState,
         vesting: vestingAccount,
@@ -316,7 +317,7 @@ describe("vesting_sale", () => {
     const expectedVectAmount = 1_000_000_000_000; // 1000 VECT
 
     const tx = await program.methods
-      .buyWithUsdc(new anchor.BN(usdcAmount))
+      .buyWithUsdc(new BN(usdcAmount))
       .accounts({
         saleState,
         vesting: vesting2Account,
@@ -373,7 +374,7 @@ describe("vesting_sale", () => {
 
     try {
       await program.methods
-        .buyWithUsdc(new anchor.BN(usdcAmount))
+        .buyWithUsdc(new BN(usdcAmount))
         .accounts({
           saleState,
           vesting: vestingAccount,
@@ -414,7 +415,7 @@ describe("vesting_sale", () => {
     const newPrice = 100_000; // 0.1 USDC per VECT
 
     const tx = await program.methods
-      .updatePrice(new anchor.BN(newPrice))
+      .updatePrice(new BN(newPrice))
       .accounts({
         saleState,
         authority: authority.publicKey,
@@ -429,7 +430,7 @@ describe("vesting_sale", () => {
 
     // Reset price for other tests
     await program.methods
-      .updatePrice(new anchor.BN(USDC_PRICE_PER_VECT))
+      .updatePrice(new BN(USDC_PRICE_PER_VECT))
       .accounts({
         saleState,
         authority: authority.publicKey,
@@ -480,7 +481,7 @@ describe("vesting_sale", () => {
     const withdrawAmount = treasuryBefore.amount / 2n; // Withdraw half
 
     const tx = await program.methods
-      .withdrawUsdc(new anchor.BN(withdrawAmount.toString()))
+      .withdrawUsdc(new BN(withdrawAmount.toString()))
       .accounts({
         saleState,
         authority: authority.publicKey,
@@ -529,7 +530,7 @@ describe("vesting_sale", () => {
 
     try {
       await program.methods
-        .buyWithUsdc(new anchor.BN(usdcAmount))
+        .buyWithUsdc(new BN(usdcAmount))
         .accounts({
           saleState,
           vesting: vestingAccount,

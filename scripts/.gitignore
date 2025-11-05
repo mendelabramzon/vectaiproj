@@ -1,0 +1,9 @@
+# Generated configuration files
+.mints.json
+.sale_config.json
+
+# Keypairs
+*.json
+!package.json
+!tsconfig.json
+

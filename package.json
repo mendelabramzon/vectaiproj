@@ -13,7 +13,20 @@
     "init-sale": "ts-node scripts/initialize_sale.ts",
     "fund-vault": "ts-node scripts/fund_vault.ts",
     "buy": "ts-node scripts/buy_tokens.ts",
-    "claim": "ts-node scripts/claim_tokens.ts"
+    "claim": "ts-node scripts/claim_tokens.ts",
+    "testnet:create-tokens": "ts-node scripts/testnet_create_tokens.ts",
+    "testnet:init": "ts-node scripts/testnet_initialize_sale.ts",
+    "testnet:fund": "ts-node scripts/testnet_fund_vault.ts",
+    "testnet:buy": "ts-node scripts/testnet_buy_tokens.ts",
+    "testnet:claim": "ts-node scripts/testnet_claim_tokens.ts",
+    "testnet:status": "ts-node scripts/testnet_view_status.ts",
+    "mainnet:init": "ts-node scripts/initialize_sale_mainnet.ts",
+    "mainnet:fund": "ts-node scripts/fund_vault_mainnet.ts",
+    "mainnet:status": "ts-node scripts/view_sale_status.ts",
+    "admin:pause": "ts-node scripts/admin_pause.ts",
+    "admin:unpause": "ts-node scripts/admin_unpause.ts",
+    "admin:update-price": "ts-node scripts/admin_update_price.ts",
+    "admin:withdraw": "ts-node scripts/admin_withdraw_usdc.ts"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.32.1",
@@ -30,6 +43,7 @@
     "@types/mocha": "^9.0.0",
     "@types/node": "^20.0.0",
     "typescript": "^5.7.3",
-    "prettier": "^2.6.2"
+    "prettier": "^2.6.2",
+    "bn.js": "^5.2.1"
   }
 }

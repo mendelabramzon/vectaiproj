@@ -360,7 +360,7 @@ solana account $PROGRAM_ID --url mainnet-beta
 // scripts/initialize_sale_mainnet.ts
 const CLIFF_DURATION = 90 * 24 * 60 * 60;      // 90 days
 const VESTING_DURATION = 365 * 24 * 60 * 60;   // 365 days
-const USDC_PRICE_PER_VECT = 50_000;             // 0.05 USDC
+const USDC_PRICE_PER_VECT = 200_000;             // 0.2 USDC
 
 // VERIFY THESE VALUES MULTIPLE TIMES
 console.log("Cliff:", CLIFF_DURATION / 86400, "days");

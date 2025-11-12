@@ -12,6 +12,10 @@ Secure Solana program for selling tokens with linear vesting schedules.
 
 ## Quick Start
 
+**Choose your path:**
+- 🧪 **[Testnet](#testnet-fast-testing)** - 10-minute cliff for rapid testing
+- 🚀 **[Mainnet](#mainnet-deployment)** - 90-day cliff for production
+
 ### Prerequisites
 
 ```bash
@@ -69,31 +73,60 @@ Vesting:         [b"vesting", sale_state, buyer]
 
 ## Usage
 
-### 1. Setup
+### Testnet (Fast Testing)
+
+**10-minute cliff for rapid iteration:**
 
 ```bash
-# Create mints (testing)
-yarn create-mints
+# 1. Configure
+solana config set --url devnet
+solana airdrop 2
 
-# Initialize sale
-yarn init-sale
+# 2. Deploy
+anchor build
+anchor deploy --provider.cluster devnet
 
-# Fund vault
-yarn fund-vault
+# 3. Setup
+yarn testnet:create-tokens  # Create test VECT + USDC
+yarn testnet:init            # Initialize (10-min cliff)
+yarn testnet:fund 1000000    # Fund vault
+
+# 4. Test
+yarn buy 10                  # Buy tokens
+# Wait 10 minutes ⏱️
+yarn claim                   # Claim all tokens
+
+# 5. Monitor
+yarn testnet:status
 ```
 
-### 2. Buy Tokens
+**See [TESTNET_GUIDE.md](TESTNET_GUIDE.md) for details**
+
+### Mainnet (Production)
+
+**90-day cliff for real deployment:**
 
 ```bash
-# Minimum 10 USDC
-yarn buy 10
+# 1. Configure
+solana config set --url mainnet-beta
+
+# 2. Deploy
+anchor build
+anchor deploy --provider.cluster mainnet  # Costs ~3 SOL
+
+# 3. Setup
+yarn mainnet:init            # Initialize (90-day cliff)
+yarn mainnet:fund 1000000    # Fund with real VECT
+
+# 4. Launch
+yarn mainnet:status          # Monitor
+
+# 5. Admin
+yarn admin:pause             # Emergency controls
+yarn admin:update-price 150000
 ```
 
-### 3. Claim (After Cliff)
-
-```bash
-yarn claim
-```
+**See [MAINNET_QUICKSTART.md](MAINNET_QUICKSTART.md) for details**
 
 ### 4. Admin Operations
 
@@ -209,11 +242,13 @@ BelowMinimumPurchase      // Less than 10 USDC
 
 ## Deployment
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for:
-- Devnet deployment
-- **Mainnet deployment** (detailed)
-- Post-deployment checklist
-- Emergency procedures
+**Quick Guides:**
+- 🧪 **[TESTNET_GUIDE.md](TESTNET_GUIDE.md)** - Complete testnet guide (10-min cliff)
+- ⚡ **[MAINNET_QUICKSTART.md](MAINNET_QUICKSTART.md)** - Quick mainnet deployment
+- 📋 **[MAINNET_CHECKLIST.md](MAINNET_CHECKLIST.md)** - Detailed mainnet checklist
+- 📖 **[DEPLOYMENT.md](DEPLOYMENT.md)** - Comprehensive guide (all networks)
+- 💻 **[FRONTEND_INTEGRATION.md](FRONTEND_INTEGRATION.md)** - Frontend developer guide
+- ⚡ **[QUICK_REFERENCE.md](QUICK_REFERENCE.md)** - All commands at a glance
 
 ## Testing
 

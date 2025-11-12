@@ -5,7 +5,7 @@ use anchor_spl::associated_token::AssociatedToken;
 declare_id!("ETe5hWKprkrRVBryrhvPVDPS37ea4U9iZ7p6pv78Kusf");
 
 // Constants
-pub const VECT_DECIMALS: u32 = 9;
+pub const VECT_DECIMALS: u32 = 6; // Changed to match your token
 pub const USDC_DECIMALS: u32 = 6;
 pub const MIN_PURCHASE_USDC: u64 = 10_000_000; // 10 USDC with 6 decimals
 pub const MAX_CLIFF_DURATION: i64 = 730 * 24 * 60 * 60; // 2 years max
@@ -307,8 +307,8 @@ pub mod vesting_sale {
 /// Calculate VECT amount from USDC amount with proper decimal handling
 fn calculate_vect_amount(usdc_amount: u64, usdc_price_per_vect: u64) -> Result<u64> {
     // Formula: vect_amount = (usdc_amount * 10^VECT_DECIMALS) / usdc_price_per_vect
-    // Example: 10 USDC (10_000_000 with 6 decimals) at price 50_000 (0.05 USDC)
-    // = (10_000_000 * 1_000_000_000) / 50_000 = 200_000_000_000 (200 VECT with 9 decimals)
+    // Example: 10 USDC (10_000_000 with 6 decimals) at price 200_000 (0.2 USDC)
+    // = (10_000_000 * 1_000_000) / 200_000 = 50_000_000 (50 VECT with 6 decimals)
     
     let decimals_multiplier = 10_u128.pow(VECT_DECIMALS);
     let vect_amount = (usdc_amount as u128)

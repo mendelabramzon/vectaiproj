@@ -65,12 +65,12 @@ async function main() {
 
   // Sale parameters
   const CLIFF_DURATION = 90 * 24 * 60 * 60; // 3 months
-  const VESTING_DURATION = 365 * 24 * 60 * 60; // 12 months
-  const USDC_PRICE_PER_VECT = 50_000; // 0.05 USDC (6 decimals)
+  const VESTING_DURATION = 1; // 1 second = instant unlock after cliff
+  const USDC_PRICE_PER_VECT = 200_000; // 0.2 USDC per VECT (both have 6 decimals)
 
   console.log("\n⚙️  Sale Parameters:");
   console.log("Cliff Duration:", CLIFF_DURATION, "seconds (3 months)");
-  console.log("Vesting Duration:", VESTING_DURATION, "seconds (12 months)");
+  console.log("Vesting Duration:", VESTING_DURATION, "second (instant unlock after cliff)");
   console.log("Price:", USDC_PRICE_PER_VECT / 1_000_000, "USDC per VECT");
   console.log("Minimum Purchase: 10 USDC");
 

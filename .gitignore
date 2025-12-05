@@ -5,3 +5,19 @@ target
 node_modules
 test-ledger
 .yarn
+
+# Keypairs and sensitive files
+.keys/
+*.json.bak
+*-keypair.json
+
+# Generated config files
+scripts/.mints.json
+scripts/.sale_config.json
+scripts/.testnet_config.json
+scripts/.testnet_tokens.json
+scripts/.mainnet_config.json
+
+# Environment files
+.env
+.env.local

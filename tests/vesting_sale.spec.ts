@@ -38,7 +38,7 @@ describe("vesting_sale", () => {
   const CLIFF_DURATION = 90 * 24 * 60 * 60; // 3 months
   const VESTING_DURATION = 365 * 24 * 60 * 60; // 12 months
   const USDC_PRICE_PER_VECT = 50_000; // 0.05 USDC (6 decimals)
-  const VECT_DECIMALS = 9;
+  const VECT_DECIMALS = 6;
   const USDC_DECIMALS = 6;
   const MIN_PURCHASE_USDC = 10_000_000; // 10 USDC
 
@@ -272,7 +272,7 @@ describe("vesting_sale", () => {
   it("Buy VECT with USDC", async () => {
     const usdcAmount = 10 * 10 ** USDC_DECIMALS; // 10 USDC
     // Expected: (10 USDC * 10^9) / 50_000 = 200 VECT
-    const expectedVectAmount = 200_000_000_000; // 200 VECT with 9 decimals
+    const expectedVectAmount = 200_000_000; // 200 VECT with 6 decimals
 
     const tx = await program.methods
       .buyWithUsdc(new BN(usdcAmount))
@@ -314,7 +314,7 @@ describe("vesting_sale", () => {
 
   it("Second buyer purchases VECT", async () => {
     const usdcAmount = 50 * 10 ** USDC_DECIMALS; // 50 USDC
-    const expectedVectAmount = 1_000_000_000_000; // 1000 VECT
+    const expectedVectAmount = 1_000_000_000; // 1000 VECT
 
     const tx = await program.methods
       .buyWithUsdc(new BN(usdcAmount))

@@ -267,6 +267,37 @@ anchor test
 ✓ Admin withdrawals
 ```
 
+### Parity Swap (mock Raydium) tests
+- Purpose: parity router picks buy/sell branch based on sum parity, then CPIs into a mock swap program that transfers tokens.
+- Commands (local validator on 8899 running):
+  ```bash
+  # build & deploy mock + router
+  anchor build -p mock_swap && anchor deploy -p mock_swap
+  anchor build -p parity_swap && anchor deploy -p parity_swap
+  # run only parity swap tests
+  ANCHOR_PROVIDER_URL=http://127.0.0.1:8899 \
+  ANCHOR_WALLET=~/.config/solana/mainnet-deployer.json \
+  anchor test --skip-local-validator tests/parity_swap.spec.ts
+  ```
+
+### Using the router with a real Raydium pool
+- Client builds two Raydium swap instructions (buy/sell) off-chain (e.g., via Raydium/Jupiter SDK).
+- Provide to `executeParitySwap(numbers, buy_ix_data, sell_ix_data, buy_accounts_len)`:
+  - `buy_ix_data` / `sell_ix_data`: serialized Raydium instructions.
+  - `remaining_accounts`: exact metas for buy followed by sell; `buy_accounts_len` splits them.
+  - `dex_program`: Raydium AMM/CLMM program ID.
+- Example (TypeScript sketch):
+  ```ts
+  const { ix: buyIx, keys: buyKeys } = buildRaydiumSwapIx(...);  // from SDK/router
+  const { ix: sellIx, keys: sellKeys } = buildRaydiumSwapIx(...);
+  await parityProgram.methods
+    .executeParitySwap([new BN(1), new BN(2)], buyIx.data, sellIx.data, buyKeys.length)
+    .accounts({ authority, dexProgram: RAYDIUM_PROGRAM_ID })
+    .remainingAccounts([...buyKeys, ...sellKeys])
+    .rpc();
+  ```
+  The on-chain router forwards only the chosen branch; caller signature must be included in the forwarded metas.
+
 ## Client Integration
 
 ```typescript
